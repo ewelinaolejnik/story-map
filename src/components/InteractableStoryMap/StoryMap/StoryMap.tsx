@@ -14,6 +14,7 @@ export interface IStoryMapProps {
   zoom: number;
   selectedPlace: IPlace | null;
   setMap: (map: LeafletMap) => void;
+  handleSelectedPlaceChange: (id: number) => void;
 }
 
 const StyledStoryMap = styled.main`
@@ -28,6 +29,7 @@ const StoryMap: FunctionComponent<IStoryMapProps> = ({
   places,
   zoom,
   setMap,
+  handleSelectedPlaceChange,
 }) => {
   return selectedPlace ? (
     <StyledStoryMap>
@@ -44,6 +46,11 @@ const StoryMap: FunctionComponent<IStoryMapProps> = ({
         />
         {places.map((place: IPlace) => (
           <Marker
+            eventHandlers={{
+              click: (e) => {
+                handleSelectedPlaceChange(place.id);
+              },
+            }}
             key={"place " + place.id}
             position={[place.latitude, place.longitude]}
           ></Marker>

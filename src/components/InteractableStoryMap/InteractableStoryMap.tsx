@@ -82,6 +82,7 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
         places={places}
         zoom={mapZoom}
         setMap={setMap}
+        handleSelectedPlaceChange={handleSelectedPlaceChange}
       ></StoryMap>
       <StoryContentList
         storyContentItems={storyContentList.storyContentItems}
