@@ -12,7 +12,7 @@ export interface IPlace {
 export interface IStoryMapProps {
   places: IPlace[];
   zoom: number;
-  selectedPlaceId: number | null;
+  selectedPlace: IPlace | null;
   setMap: (map: LeafletMap) => void;
 }
 
@@ -24,14 +24,11 @@ const StyledStoryMap = styled.main`
 `;
 
 const StoryMap: FunctionComponent<IStoryMapProps> = ({
-  selectedPlaceId,
+  selectedPlace,
   places,
   zoom,
   setMap,
 }) => {
-  const selectedPlace: IPlace | undefined = places.find(
-    (place: IPlace) => place.id === selectedPlaceId,
-  );
   return selectedPlace ? (
     <StyledStoryMap>
       <MapContainer

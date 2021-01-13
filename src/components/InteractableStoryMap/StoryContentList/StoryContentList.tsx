@@ -1,8 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from "styled-components";
-import StoryContentItem, {
-  IStoryContentItemProps,
-} from "./StoryContentItem/StoryContentItem";
+import StoryContentItem from "./StoryContentItem/StoryContentItem";
 
 export interface IStoryContentItem {
   id: number;

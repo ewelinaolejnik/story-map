@@ -10,7 +10,7 @@ const StyledInteractableStoryMap = styled.main`
 `;
 
 const InteractableStoryMap: FunctionComponent<any> = (props) => {
-  const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<IPlace | null>(null);
   const [mapZoom, setMapZoom] = useState<number>(13);
   const [map, setMap] = useState<LeafletMap | null>(null);
   const storyContentList = {
@@ -57,27 +57,27 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
   ];
 
   useEffect(() => {
-    setSelectedPlaceId(places[0].id);
+    setSelectedPlace(places[0]);
   }, []);
 
   const handleSelectedPlaceChange = (id: number) => {
-    setSelectedPlaceId(id);
     setMapZoom(13);
     const selectedPlace: IPlace | undefined = places.find(
-      (place: IPlace) => place.id === selectedPlaceId,
+      (place: IPlace) => place.id === id,
     );
     if (selectedPlace) {
       map?.setView(
         { lat: selectedPlace?.latitude, lng: selectedPlace?.longitude },
         mapZoom,
       );
+      setSelectedPlace(selectedPlace);
     }
   };
 
   return (
     <StyledInteractableStoryMap>
       <StoryMap
-        selectedPlaceId={selectedPlaceId}
+        selectedPlace={selectedPlace}
         places={places}
         zoom={mapZoom}
         setMap={setMap}
