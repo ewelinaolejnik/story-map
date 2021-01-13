@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import { Map as LeafletMap } from "leaflet";
 
 export interface IPlace {
@@ -48,6 +48,19 @@ const StoryMap: FunctionComponent<IStoryMapProps> = ({
             position={[place.latitude, place.longitude]}
           ></Marker>
         ))}
+        {places.map((place: IPlace, index) => {
+          const nextPlace = places[index + 1];
+          if (!nextPlace) return null;
+          return (
+            <Polyline
+              key={"polyline " + place.id}
+              positions={[
+                [place.latitude, place.longitude],
+                [nextPlace.latitude, nextPlace.longitude],
+              ]}
+            ></Polyline>
+          );
+        })}
       </MapContainer>
     </StyledStoryMap>
   ) : null;
