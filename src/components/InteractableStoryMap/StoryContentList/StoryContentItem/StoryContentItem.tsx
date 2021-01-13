@@ -5,6 +5,7 @@ export interface IStoryContentItemProps {
   id: number;
   title: string;
   description: string;
+  handleSelectedPlaceChange: (id: number) => void;
 }
 
 const StyledStoryContentItem = styled.div`
@@ -33,11 +34,16 @@ const StyledDesc = styled.div`
 `;
 
 const StoryContentItem: FunctionComponent<IStoryContentItemProps> = ({
+  id,
   title,
   description,
+  handleSelectedPlaceChange,
 }) => {
+  const handleStoryItemClick = (event: any) => {
+    handleSelectedPlaceChange(id);
+  };
   return (
-    <StyledStoryContentItem>
+    <StyledStoryContentItem onClick={handleStoryItemClick}>
       <StyledTitle>
         <p>{title}</p>
       </StyledTitle>

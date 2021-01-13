@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import styled from "styled-components";
 import StoryContentList from "./StoryContentList/StoryContentList";
-import StoryMap from "./StoryMap/StoryMap";
+import StoryMap, { IPlace } from "./StoryMap/StoryMap";
+import { Map as LeafletMap } from "leaflet";
 
 const StyledInteractableStoryMap = styled.main`
   display: flex;
@@ -9,6 +10,9 @@ const StyledInteractableStoryMap = styled.main`
 `;
 
 const InteractableStoryMap: FunctionComponent<any> = (props) => {
+  const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
+  const [mapZoom, setMapZoom] = useState<number>(13);
+  const [map, setMap] = useState<LeafletMap | null>(null);
   const storyContentList = {
     storyContentItems: [
       {
@@ -33,10 +37,55 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
       },
     ],
   };
+
+  const places = [
+    {
+      id: 1,
+      latitude: 40.7167,
+      longitude: -74.0,
+    },
+    {
+      id: 2,
+      latitude: 37.773972,
+      longitude: -122.431297,
+    },
+    {
+      id: 3,
+      latitude: 36.114647,
+      longitude: -115.172813,
+    },
+  ];
+
+  useEffect(() => {
+    setSelectedPlaceId(places[0].id);
+  }, []);
+
+  const handleSelectedPlaceChange = (id: number) => {
+    setSelectedPlaceId(id);
+    setMapZoom(13);
+    const selectedPlace: IPlace | undefined = places.find(
+      (place: IPlace) => place.id === selectedPlaceId,
+    );
+    if (selectedPlace) {
+      map?.setView(
+        { lat: selectedPlace?.latitude, lng: selectedPlace?.longitude },
+        mapZoom,
+      );
+    }
+  };
+
   return (
     <StyledInteractableStoryMap>
-      <StoryMap></StoryMap>
-      <StoryContentList {...storyContentList}></StoryContentList>
+      <StoryMap
+        selectedPlaceId={selectedPlaceId}
+        places={places}
+        zoom={mapZoom}
+        setMap={setMap}
+      ></StoryMap>
+      <StoryContentList
+        storyContentItems={storyContentList.storyContentItems}
+        handleSelectedPlaceChange={handleSelectedPlaceChange}
+      ></StoryContentList>
     </StyledInteractableStoryMap>
   );
 };

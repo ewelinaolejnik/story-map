@@ -1,5 +1,20 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import styled from "styled-components";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { Map as LeafletMap } from "leaflet";
+
+export interface IPlace {
+  id: number;
+  latitude: number;
+  longitude: number;
+}
+
+export interface IStoryMapProps {
+  places: IPlace[];
+  zoom: number;
+  selectedPlaceId: number | null;
+  setMap: (map: LeafletMap) => void;
+}
 
 const StyledStoryMap = styled.main`
   display: flex;
@@ -8,8 +23,37 @@ const StyledStoryMap = styled.main`
   width: 70vw;
 `;
 
-const StoryMap: FunctionComponent<any> = (props) => {
-  return <StyledStoryMap></StyledStoryMap>;
+const StoryMap: FunctionComponent<IStoryMapProps> = ({
+  selectedPlaceId,
+  places,
+  zoom,
+  setMap,
+}) => {
+  const selectedPlace: IPlace | undefined = places.find(
+    (place: IPlace) => place.id === selectedPlaceId,
+  );
+  return selectedPlace ? (
+    <StyledStoryMap>
+      <MapContainer
+        style={{ height: "100%", width: "100%" }}
+        zoom={zoom}
+        center={[selectedPlace.latitude, selectedPlace.longitude]}
+        scrollWheelZoom={false}
+        whenCreated={setMap}
+      >
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {places.map((place: IPlace) => (
+          <Marker
+            key={"place " + place.id}
+            position={[place.latitude, place.longitude]}
+          ></Marker>
+        ))}
+      </MapContainer>
+    </StyledStoryMap>
+  ) : null;
 };
 
 export default StoryMap;

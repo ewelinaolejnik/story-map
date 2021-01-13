@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import Header from "./Header";
 
 const HeaderContainer: FunctionComponent = () => {

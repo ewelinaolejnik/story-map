@@ -4,8 +4,14 @@ import StoryContentItem, {
   IStoryContentItemProps,
 } from "./StoryContentItem/StoryContentItem";
 
+export interface IStoryContentItem {
+  id: number;
+  title: string;
+  description: string;
+}
 export interface IStoryContentListProps {
-  storyContentItems: IStoryContentItemProps[];
+  storyContentItems: IStoryContentItem[];
+  handleSelectedPlaceChange: (id: number) => void;
 }
 
 const StyledStoryContentList = styled.main`
@@ -18,11 +24,18 @@ const StyledStoryContentList = styled.main`
 
 const StoryContentList: FunctionComponent<IStoryContentListProps> = ({
   storyContentItems,
+  handleSelectedPlaceChange,
 }) => {
   return (
     <StyledStoryContentList>
-      {storyContentItems.map((storyContentItem: IStoryContentItemProps) => (
-        <StoryContentItem key={storyContentItem.id} {...storyContentItem} />
+      {storyContentItems.map((storyContentItem: IStoryContentItem) => (
+        <StoryContentItem
+          key={storyContentItem.id}
+          id={storyContentItem.id}
+          title={storyContentItem.title}
+          description={storyContentItem.description}
+          handleSelectedPlaceChange={handleSelectedPlaceChange}
+        />
       ))}
     </StyledStoryContentList>
   );
