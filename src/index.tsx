@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { BrowserRouter } from "react-router-dom";
 
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
@@ -16,8 +17,10 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter basename="storymap">
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </BrowserRouter>,
   document.getElementById("root"),
 );

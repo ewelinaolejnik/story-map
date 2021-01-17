@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import { HashLink as Link } from "react-router-hash-link";
 import styled from "styled-components";
 
 export interface IStoryContentItemProps {
@@ -8,14 +9,22 @@ export interface IStoryContentItemProps {
   handleSelectedPlaceChange: (id: number) => void;
 }
 
-const StyledStoryContentItem = styled.div`
+const StyledStoryContentItem = styled(Link)`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
   border-radius: 20px;
   border: 1px solid #cc5565;
   background-color: whitesmoke;
+  color: black;
   cursor: pointer;
+  text-decoration: none;
+  &:active {
+    color: black;
+  }
+  &:hover {
+    color: black;
+  }
 `;
 
 const StyledTitle = styled.div`
@@ -43,8 +52,12 @@ const StoryContentItem: FunctionComponent<IStoryContentItemProps> = ({
     handleSelectedPlaceChange(id);
   };
   return (
-    <StyledStoryContentItem onClick={handleStoryItemClick}>
-      <StyledTitle>
+    <StyledStoryContentItem
+      smooth
+      to={"#place" + id.toString()}
+      onClick={handleStoryItemClick}
+    >
+      <StyledTitle id={"place" + id.toString()}>
         <p>{title}</p>
       </StyledTitle>
       <StyledDesc>{description}</StyledDesc>
