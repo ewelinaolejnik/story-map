@@ -3,6 +3,7 @@ import styled from "styled-components";
 import StoryContentList from "./StoryContentList/StoryContentList";
 import StoryMap, { IPlace } from "./StoryMap/StoryMap";
 import { Map as LeafletMap } from "leaflet";
+import { useHistory } from "react-router-dom";
 
 const StyledInteractableStoryMap = styled.main`
   display: flex;
@@ -14,6 +15,7 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
   const [selectedPlace, setSelectedPlace] = useState<IPlace | null>(null);
   const [mapZoom, setMapZoom] = useState<number>(initZoom);
   const [map, setMap] = useState<LeafletMap | null>(null);
+  const history = useHistory();
   const storyContentList = {
     storyContentItems: [
       {
@@ -72,6 +74,10 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
         { lat: selectedPlace?.latitude, lng: selectedPlace?.longitude },
         mapZoom,
       );
+      const placeId = `place${id}`;
+      const placeNode = document.getElementById(placeId);
+      history.push(`#${placeId}`);
+      placeNode?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
