@@ -8,6 +8,10 @@ import { useHistory } from "react-router-dom";
 const StyledInteractableStoryMap = styled.main`
   display: flex;
   height: 93vh;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const InteractableStoryMap: FunctionComponent<any> = (props) => {

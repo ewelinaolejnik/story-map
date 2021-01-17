@@ -22,6 +22,11 @@ const StyledStoryMap = styled.main`
   justify-content: stretch;
   align-content: stretch;
   width: 70vw;
+
+  @media (max-width: 768px) {
+    width: 100vw;
+    height: 70%;
+  }
 `;
 
 const StoryMap: FunctionComponent<IStoryMapProps> = ({

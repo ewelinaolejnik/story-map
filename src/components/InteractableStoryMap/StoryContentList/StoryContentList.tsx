@@ -18,6 +18,14 @@ const StyledStoryContentList = styled.main`
   justify-content: stretch;
   width: 30vw;
   overflow-y: auto;
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100vw;
+    overflow-x: auto;
+    height: 30%;
+  }
 `;
 
 const StoryContentList: FunctionComponent<IStoryContentListProps> = ({
