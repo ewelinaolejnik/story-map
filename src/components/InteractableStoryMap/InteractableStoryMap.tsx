@@ -64,6 +64,11 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
   ];
 
   useEffect(() => {
+    const selectedPlaceId: string = history.location.hash.replace("#place", "");
+    if (selectedPlaceId) {
+      handleSelectedPlaceChange(parseInt(selectedPlaceId));
+      return;
+    }
     setSelectedPlace(places[0]);
   }, []);
 
