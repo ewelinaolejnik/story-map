@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { HeaderState } from "../../types";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -16,11 +17,7 @@ const StyledTitle = styled.p`
   font-size: 28px;
 `;
 
-interface HeaderProps {
-  title: string;
-}
-
-const Header: React.FunctionComponent<HeaderProps> = (props) => {
+const Header: React.FunctionComponent<HeaderState> = (props) => {
   const titleElem = props.title ? <span>of {props.title}</span> : null;
   return (
     <StyledHeader>

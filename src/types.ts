@@ -5,8 +5,16 @@ export enum StoryMapActions {
   UPDATE_SELECTED_PLACE,
 }
 
+export enum HeaderActions {
+  UPDATE_TITLE,
+}
+
 export interface Action {
-  type: StoryMapActions;
+  type: StoryMapActions | HeaderActions;
+}
+
+export interface ActionUpdateHeader extends Action {
+  title: string;
 }
 
 export interface ActionUpdateSelectedPlace extends Action {
@@ -21,6 +29,7 @@ export interface IPlace {
 
 export interface AppState {
   storyMapState: StoryMapState;
+  headerState: HeaderState;
 }
 
 export interface StoryMapState {
@@ -57,4 +66,13 @@ export interface IStoryContentItemProps {
   title: string;
   description: string;
   handleSelectedPlaceChange: (id: number) => void;
+}
+
+export interface HeaderState {
+  title: string;
+}
+
+export interface HeaderContainerProps {
+  headerProps: HeaderState;
+  onUpdateTitle: (title: string) => void;
 }
