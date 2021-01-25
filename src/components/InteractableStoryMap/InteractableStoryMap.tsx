@@ -1,9 +1,18 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import styled from "styled-components";
 import StoryContentList from "./StoryContentList/StoryContentList";
-import StoryMap, { IPlace } from "./StoryMap/StoryMap";
+import StoryMap from "./StoryMap/StoryMap";
 import { Map as LeafletMap } from "leaflet";
 import { useHistory } from "react-router-dom";
+import {
+  Action,
+  AppState,
+  InteractableStoryMapProps,
+  IPlace,
+} from "../../types";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { toInitZoom, updateSelectedPlace } from "../../redux/actions/storyMap";
 
 const StyledInteractableStoryMap = styled.main`
   display: flex;
@@ -14,10 +23,11 @@ const StyledInteractableStoryMap = styled.main`
   }
 `;
 
-const InteractableStoryMap: FunctionComponent<any> = (props) => {
-  const initZoom: number = 12;
-  const [selectedPlace, setSelectedPlace] = useState<IPlace | null>(null);
-  const [mapZoom, setMapZoom] = useState<number>(initZoom);
+const InteractableStoryMap: FunctionComponent<InteractableStoryMapProps> = ({
+  storyMapProps,
+  onUpdateSelectedPlace,
+  onToInitZoom,
+}) => {
   const [map, setMap] = useState<LeafletMap | null>(null);
   const history = useHistory();
   const storyContentList = {
@@ -69,7 +79,7 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
       handleSelectedPlaceChange(parseInt(selectedPlaceId));
       return;
     }
-    setSelectedPlace(places[0]);
+    onUpdateSelectedPlace(places[0]);
   }, []);
 
   const handleSelectedPlaceChange = (id: number) => {
@@ -77,11 +87,11 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
       (place: IPlace) => place.id === id,
     );
     if (selectedPlace) {
-      setMapZoom(initZoom);
-      setSelectedPlace(selectedPlace);
+      onToInitZoom();
+      onUpdateSelectedPlace(selectedPlace);
       map?.flyTo(
         { lat: selectedPlace?.latitude, lng: selectedPlace?.longitude },
-        mapZoom,
+        storyMapProps.zoom,
       );
       const placeId = `place${id}`;
       const placeNode = document.getElementById(placeId);
@@ -93,9 +103,9 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
   return (
     <StyledInteractableStoryMap>
       <StoryMap
-        selectedPlace={selectedPlace}
+        selectedPlace={storyMapProps.selectedPlace}
         places={places}
-        zoom={mapZoom}
+        zoom={storyMapProps.zoom}
         setMap={setMap}
         handleSelectedPlaceChange={handleSelectedPlaceChange}
       ></StoryMap>
@@ -107,4 +117,17 @@ const InteractableStoryMap: FunctionComponent<any> = (props) => {
   );
 };
 
-export default InteractableStoryMap;
+export const mapStateToProps = (state: AppState) => ({
+  storyMapProps: state.storyMapState,
+});
+
+export const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+  onToInitZoom: () => dispatch(toInitZoom()),
+  onUpdateSelectedPlace: (selectedPlace: IPlace | null) =>
+    dispatch(updateSelectedPlace(selectedPlace)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(InteractableStoryMap);

@@ -1,13 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { HashLink as Link } from "react-router-hash-link";
 import styled from "styled-components";
-
-export interface IStoryContentItemProps {
-  id: number;
-  title: string;
-  description: string;
-  handleSelectedPlaceChange: (id: number) => void;
-}
+import { IStoryContentItemProps } from "../../../../types";
 
 const StyledStoryContentItem = styled(Link)`
   display: flex;

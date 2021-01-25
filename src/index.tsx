@@ -8,6 +8,9 @@ import { BrowserRouter } from "react-router-dom";
 
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "./redux/reducers";
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -16,11 +19,15 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
+const store = createStore(rootReducer);
+
 ReactDOM.render(
   <BrowserRouter basename="storymap">
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <Provider store={store}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Provider>
   </BrowserRouter>,
   document.getElementById("root"),
 );

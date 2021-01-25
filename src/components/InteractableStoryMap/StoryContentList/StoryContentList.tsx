@@ -1,16 +1,7 @@
 import { FunctionComponent } from "react";
 import styled from "styled-components";
+import { IStoryContentItem, IStoryContentListProps } from "../../../types";
 import StoryContentItem from "./StoryContentItem/StoryContentItem";
-
-export interface IStoryContentItem {
-  id: number;
-  title: string;
-  description: string;
-}
-export interface IStoryContentListProps {
-  storyContentItems: IStoryContentItem[];
-  handleSelectedPlaceChange: (id: number) => void;
-}
 
 const StyledStoryContentList = styled.main`
   display: flex;

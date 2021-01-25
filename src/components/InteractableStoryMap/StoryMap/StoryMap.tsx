@@ -1,21 +1,7 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
-import { Map as LeafletMap } from "leaflet";
-
-export interface IPlace {
-  id: number;
-  latitude: number;
-  longitude: number;
-}
-
-export interface IStoryMapProps {
-  places: IPlace[];
-  zoom: number;
-  selectedPlace: IPlace | null;
-  setMap: (map: LeafletMap) => void;
-  handleSelectedPlaceChange: (id: number) => void;
-}
+import { IPlace, IStoryMapProps } from "../../../types";
 
 const StyledStoryMap = styled.main`
   display: flex;
