@@ -9,6 +9,7 @@ import {
   AppState,
   InteractableStoryMapProps,
   IPlace,
+  IStoryContentItem,
 } from "../../types";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -30,48 +31,24 @@ const InteractableStoryMap: FunctionComponent<InteractableStoryMapProps> = ({
 }) => {
   const [map, setMap] = useState<LeafletMap | null>(null);
   const history = useHistory();
-  const storyContentList = {
-    storyContentItems: [
-      {
-        id: 1,
-        title: "test",
-        description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-      },
-      {
-        id: 2,
-        title: "test 2",
-        description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-      },
-      {
-        id: 3,
-        title: "test 3",
-        description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-      },
-      {
-        id: 4,
-        title: "test 4",
-        description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-      },
-    ],
-  };
+  const [storyContentList, setStoryContentList] = useState<IStoryContentItem[]>(
+    [],
+  );
+  const [places, setPlaces] = useState<IPlace[]>([]);
 
-  const places = [
-    {
-      id: 1,
-      latitude: 40.7167,
-      longitude: -74.0,
-    },
-    {
-      id: 2,
-      latitude: 37.773972,
-      longitude: -122.431297,
-    },
-    {
-      id: 3,
-      latitude: 36.114647,
-      longitude: -115.172813,
-    },
-  ];
+  useEffect(() => {
+    fetch("http://localhost:4000/storyContentList")
+      .then((result) => result.json())
+      .then((response: IStoryContentItem[]) => {
+        setStoryContentList(response);
+      });
+
+    fetch("http://localhost:4000/cities")
+      .then((result) => result.json())
+      .then((response: IPlace[]) => {
+        setPlaces(response);
+      });
+  }, []);
 
   useEffect(() => {
     const selectedPlaceId: string = history.location.hash.replace("#place", "");
@@ -80,7 +57,7 @@ const InteractableStoryMap: FunctionComponent<InteractableStoryMapProps> = ({
       return;
     }
     onUpdateSelectedPlace(places[0]);
-  }, []);
+  }, [places, history]);
 
   const handleSelectedPlaceChange = (id: number) => {
     const selectedPlace: IPlace | undefined = places.find(
@@ -110,7 +87,7 @@ const InteractableStoryMap: FunctionComponent<InteractableStoryMapProps> = ({
         handleSelectedPlaceChange={handleSelectedPlaceChange}
       ></StoryMap>
       <StoryContentList
-        storyContentItems={storyContentList.storyContentItems}
+        storyContentItems={storyContentList}
         handleSelectedPlaceChange={handleSelectedPlaceChange}
       ></StoryContentList>
     </StyledInteractableStoryMap>
