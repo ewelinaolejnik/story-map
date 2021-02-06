@@ -12,7 +12,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./redux/reducers";
 import createSagaMiddleware from "redux-saga";
-import { watchHeader } from "./redux/sagas";
+import { watchHeader, watchStoryMap } from "./redux/sagas";
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -24,6 +24,7 @@ L.Marker.prototype.options.icon = DefaultIcon;
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(watchHeader);
+sagaMiddleware.run(watchStoryMap);
 
 ReactDOM.render(
   <BrowserRouter basename="storymap">

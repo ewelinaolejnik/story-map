@@ -3,8 +3,10 @@ import { Map as LeafletMap } from "leaflet";
 export enum StoryMapActions {
   TO_INIT_ZOOM,
   UPDATE_SELECTED_PLACE,
-  FETCH_PLACES,
-  FETCH_STORY_CONTENT_LIST,
+  FETCH_PLACES_SUCCESS,
+  FETCH_STORY_CONTENT_LIST_SUCCESS,
+  GET_PLACES = "GET_PLACES",
+  GET_STORY_CONTENT_LIST = "GET_STORY_CONTENT_LIST",
 }
 
 export enum HeaderActions {
@@ -54,6 +56,8 @@ export interface InteractableStoryMapProps {
   storyMapProps: StoryMapState;
   onToInitZoom: () => void;
   onUpdateSelectedPlace: (selectedPlace: IPlace | null) => void;
+  onGetPlaces: () => void;
+  onGetStoryContentList: () => void;
 }
 
 export interface IStoryMapProps {

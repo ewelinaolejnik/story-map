@@ -19,14 +19,22 @@ export const updateSelectedPlace = (
   selectedPlace,
 });
 
-export const getStoryContentList = (
+export const fetchStoryContentList = (
   storyContentList: IStoryContentItem[],
 ): ActionGetStoryContentList => ({
-  type: StoryMapActions.FETCH_STORY_CONTENT_LIST,
+  type: StoryMapActions.FETCH_STORY_CONTENT_LIST_SUCCESS,
   storyContentList,
 });
 
-export const getPlaces = (places: IPlace[]): ActionGetPlaces => ({
-  type: StoryMapActions.FETCH_PLACES,
+export const fetchPlaces = (places: IPlace[]): ActionGetPlaces => ({
+  type: StoryMapActions.FETCH_PLACES_SUCCESS,
   places,
+});
+
+export const getStoryContentList = (): Action => ({
+  type: StoryMapActions.GET_STORY_CONTENT_LIST,
+});
+
+export const getPlaces = (): Action => ({
+  type: StoryMapActions.GET_PLACES,
 });
