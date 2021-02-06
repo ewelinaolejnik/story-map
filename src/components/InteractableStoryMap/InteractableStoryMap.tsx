@@ -3,7 +3,7 @@ import styled from "styled-components";
 import StoryContentList from "./StoryContentList/StoryContentList";
 import StoryMap from "./StoryMap/StoryMap";
 import { Map as LeafletMap } from "leaflet";
-import { HashRouter, useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Action,
   AppState,
@@ -37,6 +37,7 @@ const InteractableStoryMap: FunctionComponent<InteractableStoryMapProps> = ({
 }) => {
   const [map, setMap] = useState<LeafletMap | null>(null);
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     onGetPlaces();
@@ -44,30 +45,48 @@ const InteractableStoryMap: FunctionComponent<InteractableStoryMapProps> = ({
   }, []);
 
   useEffect(() => {
-    const selectedPlaceId: string = history.location.hash.replace("#place", "");
+    const selectedPlaceId: string = location.hash.replace("#place", "");
+    const selectedPlace: IPlace | undefined = storyMapProps.places.find(
+      (place: IPlace) => place.id === parseInt(selectedPlaceId),
+    );
+    if (selectedPlace) {
+      updateMapPlace(selectedPlace);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    const selectedPlaceId: string = location.hash.replace("#place", "");
     if (selectedPlaceId) {
       handleSelectedPlaceChange(parseInt(selectedPlaceId));
       return;
     }
     onUpdateSelectedPlace(storyMapProps.places[0]);
-  }, [storyMapProps.places, history]);
+  }, [storyMapProps.places]);
 
   const handleSelectedPlaceChange = (id: number) => {
     const selectedPlace: IPlace | undefined = storyMapProps.places.find(
       (place: IPlace) => place.id === id,
     );
     if (selectedPlace) {
-      onToInitZoom();
-      onUpdateSelectedPlace(selectedPlace);
-      map?.flyTo(
-        { lat: selectedPlace?.latitude, lng: selectedPlace?.longitude },
-        storyMapProps.zoom,
-      );
-      const placeId = `place${id}`;
-      const placeNode = document.getElementById(placeId);
-      history.push(`#${placeId}`);
-      placeNode?.scrollIntoView({ behavior: "smooth" });
+      updateMapPlace(selectedPlace);
+      movePlaceScroll(id);
     }
+  };
+
+  const updateMapPlace = (selectedPlace: IPlace) => {
+    onToInitZoom();
+    onUpdateSelectedPlace(selectedPlace);
+    map?.flyTo(
+      { lat: selectedPlace?.latitude, lng: selectedPlace?.longitude },
+      storyMapProps.zoom,
+    );
+  };
+
+  const movePlaceScroll = (id: number) => {
+    const placeId = `place${id}`;
+    const placeNode = document.getElementById(placeId);
+    history.push(`#${placeId}`);
+    placeNode?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (

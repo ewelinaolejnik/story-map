@@ -27,7 +27,7 @@ sagaMiddleware.run(watchHeader);
 sagaMiddleware.run(watchStoryMap);
 
 ReactDOM.render(
-  <BrowserRouter basename="storymap">
+  <BrowserRouter basename="/storymap">
     <Provider store={store}>
       <React.StrictMode>
         <App />
