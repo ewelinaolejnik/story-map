@@ -3,22 +3,33 @@ import { Map as LeafletMap } from "leaflet";
 export enum StoryMapActions {
   TO_INIT_ZOOM,
   UPDATE_SELECTED_PLACE,
+  FETCH_PLACES,
+  FETCH_STORY_CONTENT_LIST,
 }
 
 export enum HeaderActions {
-  UPDATE_TITLE,
+  FETCH_TITLE_SUCCESS,
+  GET_HEADER = "GET_HEADER",
 }
 
 export interface Action {
   type: StoryMapActions | HeaderActions;
 }
 
-export interface ActionUpdateHeader extends Action {
+export interface ActionGetHeaderSuccess extends Action {
   title: string;
 }
 
 export interface ActionUpdateSelectedPlace extends Action {
   selectedPlace: IPlace | null;
+}
+
+export interface ActionGetPlaces extends Action {
+  places: IPlace[];
+}
+
+export interface ActionGetStoryContentList extends Action {
+  storyContentList: IStoryContentItem[];
 }
 
 export interface IPlace {
@@ -35,6 +46,8 @@ export interface AppState {
 export interface StoryMapState {
   selectedPlace: IPlace | null;
   zoom: number;
+  places: IPlace[];
+  storyContentList: IStoryContentItem[];
 }
 
 export interface InteractableStoryMapProps {
@@ -74,5 +87,5 @@ export interface HeaderState {
 
 export interface HeaderContainerProps {
   headerProps: HeaderState;
-  onUpdateTitle: (title: string) => void;
+  onGetHeader: () => Action;
 }

@@ -1,6 +1,10 @@
-import { ActionUpdateHeader, HeaderActions } from "../../types";
+import { Action, ActionGetHeaderSuccess, HeaderActions } from "../../types";
 
-export const updateTitle = (title: string): ActionUpdateHeader => ({
-  type: HeaderActions.UPDATE_TITLE,
+export const getTitleSuccess = (title: string): ActionGetHeaderSuccess => ({
+  type: HeaderActions.FETCH_TITLE_SUCCESS,
   title,
+});
+
+export const getHeader = (): Action => ({
+  type: HeaderActions.GET_HEADER,
 });

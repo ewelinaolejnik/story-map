@@ -1,7 +1,10 @@
 import {
   Action,
+  ActionGetPlaces,
+  ActionGetStoryContentList,
   ActionUpdateSelectedPlace,
   IPlace,
+  IStoryContentItem,
   StoryMapActions,
 } from "../../types";
 
@@ -14,4 +17,16 @@ export const updateSelectedPlace = (
 ): ActionUpdateSelectedPlace => ({
   type: StoryMapActions.UPDATE_SELECTED_PLACE,
   selectedPlace,
+});
+
+export const getStoryContentList = (
+  storyContentList: IStoryContentItem[],
+): ActionGetStoryContentList => ({
+  type: StoryMapActions.FETCH_STORY_CONTENT_LIST,
+  storyContentList,
+});
+
+export const getPlaces = (places: IPlace[]): ActionGetPlaces => ({
+  type: StoryMapActions.FETCH_PLACES,
+  places,
 });

@@ -1,6 +1,6 @@
 import {
   Action,
-  ActionUpdateHeader,
+  ActionGetHeaderSuccess,
   HeaderActions,
   HeaderState,
 } from "../../types";
@@ -11,8 +11,10 @@ const initialState: HeaderState = {
 
 const headerReducer = (state: HeaderState = initialState, action: Action) => {
   switch (action.type) {
-    case HeaderActions.UPDATE_TITLE:
-      return { ...state, title: (action as ActionUpdateHeader).title };
+    case HeaderActions.FETCH_TITLE_SUCCESS:
+      return { ...state, title: (action as ActionGetHeaderSuccess).title };
+    case HeaderActions.GET_HEADER:
+      return { ...state };
     default:
       return state;
   }
