@@ -18,10 +18,10 @@ const StyledTitle = styled.p`
 `;
 
 const Header: React.FunctionComponent<HeaderState> = (props) => {
-  const titleElem = props.title ? <span>of {props.title}</span> : null;
+  const titleElem = props.title ? <span> of {props.title}</span> : null;
   return (
     <StyledHeader>
-      <StyledTitle>Story Map {titleElem}</StyledTitle>
+      <StyledTitle>Story Map{titleElem}</StyledTitle>
     </StyledHeader>
   );
 };

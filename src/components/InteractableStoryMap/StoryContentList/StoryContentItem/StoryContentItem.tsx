@@ -27,7 +27,7 @@ const StyledStoryContentItem = styled(Link)`
   }
 `;
 
-const StyledTitle = styled.div`
+export const StyledTitle = styled.div`
   display: flex;
   justify-content: center;
   font-size: 20px;
@@ -39,7 +39,7 @@ const StyledTitle = styled.div`
   }
 `;
 
-const StyledDesc = styled.div`
+export const StyledDesc = styled.div`
   display: flex;
   justify-content: flex-start;
   font-size: 16px;
