@@ -10,7 +10,7 @@ export default {
 const Template = (args: any) => <StoryContentItem {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {
+(Default as any).args = {
   id: 1,
   title: "test",
   description: "test test",
