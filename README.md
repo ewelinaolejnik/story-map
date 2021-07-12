@@ -1,6 +1,6 @@
 # How to start
 
-yarn jsonserver
+yarn jsonserver<br/>
 yarn start
 
 # Docs
